@@ -130,6 +130,7 @@ public class YoyoPlayerTest {
 
         //Assert:
         Assert.assertNotNull(textSegement); //fails
+        Assert.assertEquals(2, textSegement.getBeginChar());
     }
 
     @Test
@@ -143,6 +144,21 @@ public class YoyoPlayerTest {
 
         //Assert:
         Assert.assertNotNull(textSegement); //fails
+        Assert.assertEquals(3, textSegement.getBeginChar());
+    }
+
+    @Test
+    public void test2AcrossRuns() {
+        //Prepare Test Data:
+        XWPFParagraph paragraph = WordTestUtil.createParagraphWithRuns("ab", "aababcaa");
+        //                                                                     ababcaa
+        //Execute:
+        TextSegement textSegement =
+                new FixedParagraphSearchText().searchText(paragraph, "ababcaa", new PositionInParagraph());
+
+        //Assert:
+        Assert.assertNotNull(textSegement); //fails
+        Assert.assertEquals(1, textSegement.getBeginChar());
     }
 
 
@@ -173,8 +189,9 @@ public class YoyoPlayerTest {
                     TextSegement textSegement = underTest.searchText(paragraph, searched, new PositionInParagraph());
                     if (textSegement == null) {
                         System.out.println("^----------------------- /!\\ not found /!\\ ---------------------^");
-                        Assert.fail(String.format("searched='%s' - text='%s'.\n", searched, text));
                     }
+                    Assert.fail(String.format("searched='%s' - text='%s'.\n", searched, text));
+                    Assert.assertEquals(text.indexOf(searched), textSegement.getBeginChar());
                 }
             }
         }

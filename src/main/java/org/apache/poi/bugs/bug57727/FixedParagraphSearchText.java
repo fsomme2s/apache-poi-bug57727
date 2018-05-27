@@ -81,6 +81,7 @@ public class FixedParagraphSearchText {
                             } else {
                                 //a char diffed - reset the search position:
                                 candCharPos = failureTable[candCharPos];
+                                beginCharPos = charPos - candCharPos;
                                 charPos--;
                             }
                         }
